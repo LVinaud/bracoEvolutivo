@@ -1,6 +1,6 @@
 # Braço Evolutivo
 
-Um braço mecânico evolutivo multiobjetivo. O projeto foi feito utilizando da biblioteca SDL2 para a parte gráfica em conjunto com bibliotecas padrão da linguagem C.
+Um braço mecânico evolutivo multiobjetivo. O projeto foi feito utilizando a biblioteca SDL2 para a parte gráfica em conjunto com bibliotecas padrão da linguagem C.
 O projeto segue conceitos ensinados na disciplina de Sistemas Evolutivos aplicados à robótica.
 
 A ideia consiste num braço cujo comprimento é determinado em um define pelo usuário, com um números de juntas também definido pelo usuário no início do código.
