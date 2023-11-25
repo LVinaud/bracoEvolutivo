@@ -1,3 +1,5 @@
+
+https://github.com/LVinaud/bracoEvolutivo/assets/128495824/8823f9a8-aa27-4596-a312-d07fcf6d94cc
 # Braço Evolutivo
 
 Um braço mecânico evolutivo multiobjetivo. O projeto foi feito utilizzando da biblioteca SDL2 para a parte gráfica em conjunto com bibliotecas padrão da linguagem C.
@@ -18,6 +20,20 @@ Primeiramente ele espera que o usuario defina os obstaculos, quando terminar de 
 Agora, basta clicar onde os braços partirão e o programa se inicia. A cada clique do mouse de agora em diante, o objetivo será redefinido para a nova posição. 
 A tecla Q gera um genocídio na população, enquanto a Z aumenta a mutação e X diminui. Caso nao ajuste a mutação manualmente, ela será reajustada automaticamente seguindo 
 o conceito de mutação variável.
+
+
+https://github.com/LVinaud/bracoEvolutivo/assets/128495824/df3cf7a9-29bb-47ed-aab2-2b2755683bf2
+
+
+
+https://github.com/LVinaud/bracoEvolutivo/assets/128495824/daa3b244-391c-4989-9d47-1bbd62c87486
+
+
+
+
+
+https://github.com/LVinaud/bracoEvolutivo/assets/128495824/dd4a6ecf-5448-4a9f-9b55-e6c6c30fb351
+
 
 
 
