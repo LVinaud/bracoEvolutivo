@@ -24,9 +24,13 @@ Exemplo sem obstáculos, o braço acha uma configuração quase instantâneament
 
 https://github.com/LVinaud/bracoEvolutivo/assets/128495824/df3cf7a9-29bb-47ed-aab2-2b2755683bf2
 
+
+
 Teste da tecla Q, reseta a população. Novamente, em pouco tempo uma nova configuração é encontrada.
 
 https://github.com/LVinaud/bracoEvolutivo/assets/128495824/daa3b244-391c-4989-9d47-1bbd62c87486
+
+
 
 Teste com obstáculos, chegar ao objetivo é muito rápido. Após um certo tempo o braço aprende a se distanciar dos obstáculos.
 
