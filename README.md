@@ -37,5 +37,11 @@ Teste com obstáculos, chegar ao objetivo é muito rápido. Após um certo tempo
 https://github.com/LVinaud/bracoEvolutivo/assets/128495824/dd4a6ecf-5448-4a9f-9b55-e6c6c30fb351
 
 
+Exemplo de execução do programa mostrando toda a população.
+
+https://github.com/LVinaud/bracoEvolutivo/assets/128495824/37e0ec29-7f43-4ccf-aba3-525bddbc23be
+
+
+
 
 
