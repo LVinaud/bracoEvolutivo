@@ -20,7 +20,7 @@ A tecla Q gera um genocídio na população, enquanto a Z aumenta a mutação e 
 o conceito de mutação variável.
 
 
-Exemplo sem obstáculos, o braço acha uma configuração quase instantâneamente.
+Exemplo sem obstáculos, o braço acha uma configuração quase instantaneamente.
 
 https://github.com/LVinaud/bracoEvolutivo/assets/128495824/df3cf7a9-29bb-47ed-aab2-2b2755683bf2
 
