@@ -15,7 +15,7 @@ quantidade de gerações repetidas para uma nova mutação e a escolha entre mos
 o melhor individuo histórico ou toda a população; rode o programa.
 
 Primeiramente ele espera que o usuario defina os obstaculos, quando terminar de desenhá-los(um obstaculo é definido por dois cliques que formarão um retângulo), aperte enter. 
-Agora, basta clicar onde os braços partirão e o programa se inicia. A cada clique do mouse de agora em diante, o objetivo será redefinido para a nova posição. 
+Agora, basta clicar onde os braços partirão e o programa se inicia. A cada clique do mouse de agora em diante, o objetivo será redefinido para uma nova posição. 
 A tecla Q gera um genocídio na população, enquanto a Z aumenta a mutação e X diminui. Caso nao ajuste a mutação manualmente, ela será reajustada automaticamente seguindo 
 o conceito de mutação variável.
 
