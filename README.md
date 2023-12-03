@@ -10,6 +10,7 @@ também se considera a sua menor distância a algum obstáculo como parte da pon
 # Instalando SDL2
 
 Uma análise mais completa de como instalar a bilbioteca pode ser encontrada em https://wiki.libsdl.org/SDL2/Installation .
+
 Mas, em resumo, é possível apenas executar os comandos em ubuntu:
 sudo su  //(para se tornar o usuário root)
 apt-get install libsdl2-dev
