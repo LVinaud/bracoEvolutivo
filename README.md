@@ -7,6 +7,20 @@ A ideia consiste num braço cujo comprimento é determinado em um define pelo us
 que deve chegar próximo a um ponto objetivo, definido pelo usuário. A aplicação é multiobjetiva, já que após o indivíduo chegar numa certa distância do objetivo,
 também se considera a sua menor distância a algum obstáculo como parte da pontuação(A descrição da avaliação no código é mais precisa).
 
+# Instalando SDL2
+
+Uma análise mais completa de como instalar a bilbioteca pode ser encontrada em https://wiki.libsdl.org/SDL2/Installation .
+Mas, em resumo, é possível apenas executar os comandos em ubuntu:
+sudo su  //(para se tornar o usuário root)
+apt-get install libsdl2-dev
+exit //(para sair do usuario root)
+
+isso deveria ser o suficiente, já que como usuário root, a biblioteca deve ser instalada no local padrão de bibliotecas. Contudo, 
+parece ser um problema comum que mesmo assim a biblioteca acabe parando em outro lugar. Para tentar contornar isso,
+compile o código com:
+
+gcc braco_mecanico.c -o braco $(sdl2-config --cflags --libs) -lSDL2 -lm
+
 # Como usar o programa
 
 Após ajustar os defines da maneira como o usuário preferir, incluindo o delay de tempo a cada iteração do código, o número de individuos,
