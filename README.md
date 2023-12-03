@@ -12,11 +12,17 @@ também se considera a sua menor distância a algum obstáculo como parte da pon
 Uma análise mais completa de como instalar a bilbioteca pode ser encontrada em https://wiki.libsdl.org/SDL2/Installation .
 
 Mas, em resumo, é possível apenas executar os comandos em ubuntu:
+
+
 sudo su  //(para se tornar o usuário root)
+
+
 apt-get install libsdl2-dev
+
+
 exit //(para sair do usuario root)
 
-isso deveria ser o suficiente, já que como usuário root, a biblioteca deve ser instalada no local padrão de bibliotecas. Contudo, 
+Isso deveria ser o suficiente, já que como usuário root, a biblioteca deve ser instalada no local padrão de bibliotecas. Contudo, 
 parece ser um problema comum que mesmo assim a biblioteca acabe parando em outro lugar. Para tentar contornar isso,
 compile o código com:
 
