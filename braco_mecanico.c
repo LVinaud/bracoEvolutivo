@@ -18,11 +18,11 @@
 #define DELAY 1 //quantos milissegundos de delay entre uma iteração e outra.
 #define SCREEN_WIDTH 1100   //Constantes relacionadas ao tamanho da janela
 #define SCREEN_HEIGHT 650
-#define MOSTRA_POPULACAO 0 //Escolha se quer ver todos os individuos, ou apenas o melhor.
+#define MOSTRA_POPULACAO 1 //Escolha se quer ver todos os individuos, ou apenas o melhor.
 #define GERACOES_REPETIDAS 200 //Quantas gerações com o melhor repetido para que a mutação varie
 #define NUM_JUNTAS 30   //Em quantas juntas o comprimento total será dividido, é também o tamanho do vetor de angulos
 #define COMPRIMENTO_TOTAL 1100  //Comprimento do braço
-#define NUM_INDIVIDUOS 100  //Quantos individuos serão gerados e examinados por iteração
+#define NUM_INDIVIDUOS 5  //Quantos individuos serão gerados e examinados por iteração
 #define TAXA_MUTACAO 1  //Taxa de mutação inicial, durante a execução será na prática alterada pelo usuário
 #define DISTANCIA_MIN 16
 
@@ -92,40 +92,28 @@ void avaliaIndividuo(Individuo* individuo, SDL_Rect** obstaculos, int num_obs, S
     //A pontuação do individuo leva primeiro em conta a distancia do seu ponto final ao objetivo.
     //Se essa distancia for menor do que um valor predeterminado, passa a analisar também sua distancia aos obstaculos.
     float pontuacao = 0;
+    float menor_distancia = 1000000;
+    SDL_Point aux;
     int x_atual = individuo->inicio.x, y_atual = individuo->inicio.y;
     for(int i = 0; i < NUM_JUNTAS; i++) {
         //a cada iteração o x e y atuais do braço se atualizam
         x_atual += (cos(individuo->angulos[i]) * (COMPRIMENTO_TOTAL/NUM_JUNTAS));
         y_atual += (sin(individuo->angulos[i]) * (COMPRIMENTO_TOTAL/NUM_JUNTAS));
-        SDL_Point aux = {x_atual, y_atual};
+        aux.x = x_atual;
+        aux.y = y_atual;
         //em toda iteração checo se o braço entrou em algum obstaculo, usando uma função que detecta essa colisao do proprio SDL
         //caso tenha entrado, é dada uma pontuação negativa e a função retorna. Quero evitar essa situação ao máximo.
-        for(int j = 0; j < num_obs; j++)
-        if(SDL_EnclosePoints(&aux, 1, obstaculos[j], NULL)) {individuo->pontuacao = -99999; return;}
+        //aproveito também para já calcular a menor distância que acontece entre uma junta e um obstaculo.
+        for(int j = 0; j < num_obs; j++) {
+            if(SDL_EnclosePoints(&aux, 1, obstaculos[j], NULL)) {individuo->pontuacao = -99999; return;}
+            menor_distancia = min(menor_distancia, distanciaPontoRect(aux, *(obstaculos[j])));
+        }
     }
+    individuo->menorDistancia = menor_distancia;
     SDL_Point final = {x_atual, y_atual};
     pontuacao = (1.0) / (distancia(objetivo, final));
-    if(distancia(objetivo, final) < DISTANCIA_MIN) { //agora vao tentar se distanciar dos obstaculos
-        SDL_Point aux;
-        //Basicamente, a segunda parte da avaliação funciona assim:
-        //Calculo as distancias de todas as juntas até todos os obstaculos, buscando a menor de todas elas.
-        //Depois que acho a menor das distancias, adiciono ela à pontuação. Dessa forma, vai tentar se criar uma grande distancia entre os obstaculos.
-        float menor_distancia = 1000000;
-        for(int i = 0; i < num_obs; i++) {
-            int x_atual2 = individuo->inicio.x, y_atual2 = individuo->inicio.y;
-            for(int j = 0; j < NUM_JUNTAS; j++) {
-                x_atual2 += (cos(individuo->angulos[j]) * (COMPRIMENTO_TOTAL/NUM_JUNTAS));
-                y_atual2 += (sin(individuo->angulos[j]) * (COMPRIMENTO_TOTAL/NUM_JUNTAS));
-                aux.x = x_atual2;
-                aux.y = y_atual2;
-                menor_distancia = min(menor_distancia, distanciaPontoRect(aux, *(obstaculos[i])));
-            }
-            
-        }
-        //printf("A menor distância é : %lf\n", menor_distancia);
-        individuo->menorDistancia = menor_distancia;
+    if(distancia(objetivo, final) < DISTANCIA_MIN) 
         pontuacao += menor_distancia;
-    }
     //Por fim, o individuo recebe a pontuação calculada.
     individuo->pontuacao = pontuacao;
 }
@@ -404,10 +392,10 @@ int main() {
         }
 
         //desenha todos os individuos com uma cor definida(azul perto do ciano)
-        for(int i = 0; i < NUM_INDIVIDUOS; i++) {
-            if(MOSTRA_POPULACAO)
+        if(MOSTRA_POPULACAO)    
+            for(int i = 0; i < NUM_INDIVIDUOS; i++) 
                 mostraIndividuo(&tela, populacao[i], 19, 122, 127);
-        }
+        
         //desenha o melhor de todos com uma cor vermelha
         mostraIndividuo(&tela, melhorHistorico, 255, 36, 0);
 
@@ -430,7 +418,7 @@ int main() {
             copiaIndividuo(populacao[i], melhorHistorico);
             mutaIndividuo(populacao[i], taxa_mut);
         }
-        printf("Taxa de mutação atual: %d gerações repetidas: %d\n", taxa_mut, geracoesRepetidas);
+        //printf("Taxa de mutação atual: %d gerações repetidas: %d\n", taxa_mut, geracoesRepetidas);
         SDL_Delay(DELAY);
     }
 }
