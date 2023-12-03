@@ -3,8 +3,8 @@
 #include <time.h>
 #include <math.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
 
+//para compilar use gcc braco_mecanico.c -o braco $(sdl2-config --cflags --libs) -lSDL2 -lm
 //Para a parte gráfica, utilizei a biblioteca sdl2
 //Como utilizar o programa:
 //Ao iniciar, o programa espera que o usuário desenhe os obstáculos, a cada dois cliques um obstaculo retangular é gerado.
@@ -434,5 +434,3 @@ int main() {
         SDL_Delay(DELAY);
     }
 }
-
-//para compilar use gcc braco_mecanico.c -o braco -lSDL2 -lm -Wall -Wextra
