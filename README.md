@@ -16,7 +16,9 @@ Mas, em resumo, é possível apenas executar os comandos em ubuntu:
 
 sudo su  //(para se tornar o usuário root)
 
-apt-get update // para atualizar todos os pacotes
+apt-get update // para receber todos os pacotes das versões mais recentes
+
+apt-get upgrade // para atualizar todos os pacotes
 
 apt-get install libsdl2-dev
 
