@@ -11,6 +11,8 @@ também se considera a sua menor distância a algum obstáculo como parte da pon
 
 Uma análise mais completa de como instalar a bilbioteca pode ser encontrada em https://wiki.libsdl.org/SDL2/Installation .
 
+Obs:  Se quiser rodar no linux com VS Code, encontre as configuraçõescom o atalho CTRL + SHIFT + P, entre em C/C++ Edit Configuration(JSON). Dentro do include path, inclua "/usr/include/SDL2"
+
 Mas, em resumo, é possível apenas executar os comandos em ubuntu:
 
 
