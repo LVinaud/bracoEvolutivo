@@ -13,16 +13,17 @@
 //Agora, basta definir seu objetivo durante a execução do programa, esse objetivo pode ser modificado com um clique.
 //A tecla Q causa um genocídio, inclusive do melhor histórico.
 //A tecla Z aumenta a mutação, enquanto a X diminui. O valor mínimo da mutação é 1.
-//Mude o define MOSTRA_POPULACAO para 0 caso nao queria ver todos os individuos.
+//A tecla P alterna entre mostrar ou não a população.
 
+#define PESO_PERTO 1
+#define PESO_LONGE_OBS 1
 #define DELAY 1 //quantos milissegundos de delay entre uma iteração e outra.
-#define SCREEN_WIDTH 1100   //Constantes relacionadas ao tamanho da janela
-#define SCREEN_HEIGHT 650
-#define MOSTRA_POPULACAO 1 //Escolha se quer ver todos os individuos, ou apenas o melhor.
+#define SCREEN_WIDTH 640   //Constantes relacionadas ao tamanho da janela
+#define SCREEN_HEIGHT 640
 #define GERACOES_REPETIDAS 200 //Quantas gerações com o melhor repetido para que a mutação varie
 #define NUM_JUNTAS 30   //Em quantas juntas o comprimento total será dividido, é também o tamanho do vetor de angulos
-#define COMPRIMENTO_TOTAL 1100  //Comprimento do braço
-#define NUM_INDIVIDUOS 5  //Quantos individuos serão gerados e examinados por iteração
+#define COMPRIMENTO_TOTAL 700  //Comprimento do braço
+#define NUM_INDIVIDUOS 100  //Quantos individuos serão gerados e examinados por iteração
 #define TAXA_MUTACAO 1  //Taxa de mutação inicial, durante a execução será na prática alterada pelo usuário
 #define DISTANCIA_MIN 16
 
@@ -36,20 +37,21 @@ typedef struct {
     float pontuacao; //pontuacao a ser definida pela função avaliaIndividuo
     SDL_Point inicio; //ponto inicial do individuo, é definido pelo usuário e igual para todos
     float menorDistancia; //a distancia da junta mais próxima a algum obstaculo(!= pontuação)
-} Individuo;//o individuo a ser analisado
+} Individuo; //o individuo a ser analisado
 
 void arrumaTela(Tela* tela); //limpa a tela
 void inicializaSDL(Tela* tela); //inicializa o renderizador e a janela
 Individuo* individuoAleatorio(SDL_Point inicio); //gera um individuo aleatorio
 void lerPonto(Tela* tela, SDL_Point* objetivo, SDL_Rect** obstaculos, int numero_obstaculos); //le um clique do usuario até que um ponto que não colida com os obstaculos seja clicado
 void lerObstaculos(Tela* tela, SDL_Rect*** obstaculos, int* quantidade_obstaculos); //le os obstaculos, para de ler no pressionar da tecla enter
-void copiaIndividuo(Individuo* destino, Individuo* origem); // copia todos os atributos de um individuo
-int lerInput(int* mutacao, SDL_Point* objetivo); //le possiveis inputs relacionados a fechar o progama, alterar a mutacao ou alterar o destino
+void copiaIndividuo(Individuo* destino, Individuo* origem); //copia todos os atributos de um individuo
+int lerInput(int* mutacao, SDL_Point* objetivo, int* mostra_pop); //le possiveis inputs relacionados a fechar o progama, alterar a mutacao ou alterar o destino
 void desenhaCirculo(Tela* tela, SDL_Point ponto, int raio);
 void mostraIndividuo(Tela* tela, Individuo* individuo, int r, int g, int b); //desenha um braço na tela
 void mutaIndividuo(Individuo* individuo, int mutacao);//muta um numero definido na chamada da função de angulos do individuo
 void avaliaIndividuo(Individuo* individuo, SDL_Rect** obstaculos, int num_obs, SDL_Point objetivo);//funcao explicada mais detalhadamente na sua definição
 float distancia(SDL_Point a, SDL_Point b);//calcula a distancia entre dois pontos
+void genocidio(Individuo* populacao);
 void mostraTela(Tela* tela); //simplesmente apresenta o que foi desenhado até agora para o usuário
 float distanciaPontoRect(SDL_Point ponto, SDL_Rect rect); //pega o ponto mais proximo do retangulo e calcula a distancia a um ponto
 int min(int a, int b);
@@ -92,7 +94,7 @@ void avaliaIndividuo(Individuo* individuo, SDL_Rect** obstaculos, int num_obs, S
     //A pontuação do individuo leva primeiro em conta a distancia do seu ponto final ao objetivo.
     //Se essa distancia for menor do que um valor predeterminado, passa a analisar também sua distancia aos obstaculos.
     float pontuacao = 0;
-    float menor_distancia = 1000000;
+    float menor_distancia = 100000;
     SDL_Point aux;
     int x_atual = individuo->inicio.x, y_atual = individuo->inicio.y;
     for(int i = 0; i < NUM_JUNTAS; i++) {
@@ -111,16 +113,19 @@ void avaliaIndividuo(Individuo* individuo, SDL_Rect** obstaculos, int num_obs, S
     }
     individuo->menorDistancia = menor_distancia;
     SDL_Point final = {x_atual, y_atual};
-    pontuacao = (1.0) / (distancia(objetivo, final));
+    //float distancia_max = sqrt(SCREEN_HEIGHT * SCREEN_HEIGHT + SCREEN_WIDTH * SCREEN_WIDTH);
+    //pontuacao = (distancia_max) / (distancia(objetivo, final)) * (PESO_PERTO);
+    pontuacao = (1.0 / (distancia(objetivo, final))) * PESO_PERTO;
     if(distancia(objetivo, final) < DISTANCIA_MIN) 
-        pontuacao += menor_distancia;
+        //pontuacao += (menor_distancia / distancia_max) * (PESO_LONGE_OBS);
+        pontuacao += (menor_distancia) * PESO_LONGE_OBS;
     //Por fim, o individuo recebe a pontuação calculada.
     individuo->pontuacao = pontuacao;
 }
 
 void mutaIndividuo(Individuo* individuo, int mutacao) {
     for(int i = 0; i < mutacao; i++) {
-        individuo->angulos[(rand()%NUM_JUNTAS)] = ((float)(rand() % 6283184))/(1000000.0);
+        individuo->angulos[(rand()%NUM_JUNTAS)] = (rand() % 361) * (6.28318530718/360.0);
     }
 }
 
@@ -137,11 +142,11 @@ void mostraIndividuo(Tela* tela, Individuo* individuo, int r, int g, int b) {
     }
 }
 
-int lerInput(int* mutacao, SDL_Point* objetivo)
+int lerInput(int* mutacao, SDL_Point* objetivo, int* mostra_pop)
 {
 	SDL_Event event;
-
-	while (SDL_PollEvent(&event))
+    int pause = 0;
+	while (SDL_PollEvent(&event) || pause)
 	{
 		switch (event.type)
 		{
@@ -153,7 +158,9 @@ int lerInput(int* mutacao, SDL_Point* objetivo)
                 SDL_Keycode keyPressed = event.key.keysym.sym;
                 if(keyPressed == SDLK_z) *mutacao += 1;
                 else if ((keyPressed == SDLK_x) && (*mutacao > 1)) *mutacao -= 1;
-                else if (keyPressed == SDLK_q) return 2;
+                else if (keyPressed == SDLK_g) return 2;
+                else if (keyPressed == SDLK_s) *mostra_pop = !(*mostra_pop);
+                else if (keyPressed == SDLK_p) pause = !pause;
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 objetivo->x = event.button.x;
@@ -174,7 +181,7 @@ void inicializaSDL(Tela* tela)
 		exit(1);
 	}
 
-	tela->window = SDL_CreateWindow("Braço Mecânico", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	tela->window = SDL_CreateWindow("Teclas: S para alternar a visualização G para genocídio Z e X para aumentar/diminuir mutação", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
 	if (!tela->window)
 	{
@@ -323,6 +330,8 @@ void desenhaCirculo(Tela* tela, SDL_Point ponto, int raio) {
 
 int main() {
 
+    int mostra_pop = 0;
+
     int taxa_mut = TAXA_MUTACAO;
     //inicializa a tela e abre a janela do programa.
 
@@ -356,7 +365,7 @@ int main() {
     
     while(1) {
         //checa todos os inputs do usuario, inclusive o de fechar o programa
-        int input = lerInput(&taxa_mut, &objetivo);
+        int input = lerInput(&taxa_mut, &objetivo, &mostra_pop);
         if(input == 1) {avaliaIndividuo(melhorHistorico, obstaculos, quantidade_obstaculos, objetivo);}
         else if(input == 2) {
             for(int i = 0; i < NUM_INDIVIDUOS; i++) {
@@ -385,14 +394,20 @@ int main() {
 
         //mutacao variavel automatica
         if(geracoesRepetidas > GERACOES_REPETIDAS) {
-            if(taxa_mut < (NUM_JUNTAS * 0.5))
+            if(taxa_mut < (NUM_JUNTAS))
                 taxa_mut++;
-            else taxa_mut = TAXA_MUTACAO;
+            else {//genocidio
+                for(int i = 0; i < NUM_INDIVIDUOS; i++) {
+                    populacao[i] = individuoAleatorio(inicio);
+                }
+                copiaIndividuo(melhorHistorico, populacao[0]);
+                taxa_mut = 1;
+            }
             geracoesRepetidas = 0;
         }
 
         //desenha todos os individuos com uma cor definida(azul perto do ciano)
-        if(MOSTRA_POPULACAO)    
+        if(mostra_pop)    
             for(int i = 0; i < NUM_INDIVIDUOS; i++) 
                 mostraIndividuo(&tela, populacao[i], 19, 122, 127);
         
@@ -406,9 +421,9 @@ int main() {
             SDL_RenderFillRect(tela.renderer, obstaculos[i]);
         }
 
-        //desenha o objetivo de amarelo
-        SDL_SetRenderDrawColor(tela.renderer, 255, 255, 0, 255);
-        desenhaCirculo(&tela, objetivo, 5);
+        //desenha o objetivo 
+        SDL_SetRenderDrawColor(tela.renderer, 100, 200, 100, 255);
+        desenhaCirculo(&tela, objetivo, 7);
 
         //apresenta a tela desenhada ao usuário
         SDL_RenderPresent(tela.renderer);
