@@ -47,7 +47,7 @@ void inicializaSDL(Tela* tela)
 		exit(1);
 	}
 
-	tela->window = SDL_CreateWindow("A star", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_LENGTH, SCREEN_LENGTH, 0);
+	tela->window = SDL_CreateWindow("Desenhe o cenário. D marca o destino e O a origem", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_LENGTH, SCREEN_LENGTH, 0);
 
 	if (!tela->window)
 	{
@@ -139,7 +139,11 @@ void lerOrigemDestino(int grid[NUM_SQUARES][NUM_SQUARES], Tela* tela) {
 	}
 }
 
-int main(void) {
+int main(int argc, char* argv[]) {
+    if(argc != 2) {
+        printf("Erro na abertura arquivo.\n");
+        return 1;
+    }
     Tela tela;
     SDL_Event event;
     SCREEN_LENGTH = 640;
@@ -160,7 +164,7 @@ int main(void) {
             switch (event.type)
                 {
                     case SDL_QUIT:
-                    FILE* cenario = fopen("cenario.bin", "wb");
+                    FILE* cenario = fopen(argv[1], "wb");
                     if(cenario == NULL) {
                         printf("Erro no salvamento de arquivo.\n");
                         exit(1);
