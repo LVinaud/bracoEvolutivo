@@ -35,15 +35,17 @@ gcc braco_mecanico.c -o braco $(sdl2-config --cflags --libs) -lSDL2 -lm
 
 # Como usar o programa
 
-Após ajustar os defines da maneira como o usuário preferir, incluindo o delay de tempo a cada iteração do código, o número de individuos,
-número de juntas, comprimento do braço, a distância mínima para que se inicie a segunda parte da avaliação de um indivíduo,
-quantidade de gerações repetidas para uma nova mutação e a escolha entre mostrar apenas
-o melhor indivíduo histórico ou toda a população; rode o programa.
+São 3 códigos, o desenha.c, braco_mecanicoav4.c e o a_starav2.c. Todos essses possuem comentarios com a linha de comando para ccompilação.
 
-Primeiramente ele espera que o usuário defina os obstáculos, quando terminar de desenhá-los(um obstaculo é definido por dois cliques que formarão um retângulo), aperte enter. 
-Agora, basta clicar onde os braços partirão e o programa se inicia. A cada clique do mouse de agora em diante, o objetivo será redefinido para uma nova posição. 
-A tecla Q gera um genocídio na população, enquanto a Z aumenta a mutação e X diminui. Caso não ajuste a mutação manualmente, ela será reajustada automáticamente seguindo 
-o conceito de mutação variável.
+Para desenhar e salvar um cenário, compile o desenha.c e chame o executável no terminal com o nome do arquivo a ser salvo.
+Exemplo: ./desenha cenarioInteressante, o programa será executado e podera desenhar com cliques do mouse um cenário, D marca o ponto de destino e O o ponto de origem, quando terminar basta fechar o programa.
+Dessa maneira, um arquivo binário será gerado com esse nome e conterá uma matrix de inteiro representando o cenário que gerou.
+
+Agora, basta compilar o programa de a* e executá-lo com o mesmo nome do cenario desejado.
+Exemplo: ./a_star cenarioInteressante
+Dessa maneira, o a_star irá ler o cenário salvo e gerar um caminho mínimo que será salvo em um novo arquivo de nome caminho_cenarioInteressante
+
+Finalmente, o braço. Após ser compilado, basta que se execute ele por ./braco cenarioInteressante caminho_cenarioInteressante NUM_JUNTAS COMPRIMENTO_TOTAL NUM_INDIVIDUOS
 
 
 Exemplo sem obstáculos, o braço acha uma configuração quase instantaneamente.
