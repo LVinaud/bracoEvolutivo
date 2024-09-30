@@ -216,7 +216,7 @@ void inicializaSDL(Tela* tela)
 
 Individuo* individuoAleatorio(SDL_Point inicio, int num_juntas) {
     Individuo* novo = (Individuo*) malloc(sizeof(Individuo));
-    novo->angulos = (float*) malloc(sizeof(num_juntas));
+    novo->angulos = (float*) malloc(sizeof(float)*NUM_JUNTAS);
     for(int i = 0; i < NUM_JUNTAS; i++) {
         novo->angulos[i] = ((float)(rand() % 6283184))/(1000000.0);
     }
@@ -352,7 +352,7 @@ int main(int argc, char* argv[]) {
 
     //inicializa o melhor de todos e já avalia ele, para que nao fique com uma pontuação aleatória.
     Individuo* melhorHistorico = (Individuo*) malloc(sizeof(Individuo));
-    melhorHistorico->angulos = (float*) malloc(sizeof(NUM_JUNTAS));
+    melhorHistorico->angulos = (float*) malloc(sizeof(float)*NUM_JUNTAS);
     avaliaIndividuo(populacao[0], obstaculos, destino);
     copiaIndividuo(melhorHistorico, populacao[0]);
     int geracoesRepetidas = 0;
