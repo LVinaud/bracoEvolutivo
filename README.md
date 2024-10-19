@@ -47,6 +47,10 @@ Dessa maneira, o a_star irá ler o cenário salvo e gerar um caminho mínimo que
 
 Finalmente, o braço. Após ser compilado, basta que se execute ele por ./braco cenarioInteressante caminho_cenarioInteressante NUM_JUNTAS COMPRIMENTO_TOTAL NUM_INDIVIDUOS
 
+# Forma de Uso Alternativa - Interface
+
+Simultâneamente, uma interface gráfica tem sido desenvolvida pelo grupo de iniciação científica, melhor detalhada no repositório: https://github.com/nicocarreiro/Multi-use-Interface que facilita o proccesso de criar cenários, configurar experimentos e modificar estratégias.
+
 # Demonstração de Uso
 
 
