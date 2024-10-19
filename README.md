@@ -47,6 +47,10 @@ Dessa maneira, o a_star irá ler o cenário salvo e gerar um caminho mínimo que
 
 Finalmente, o braço. Após ser compilado, basta que se execute ele por ./braco cenarioInteressante caminho_cenarioInteressante NUM_JUNTAS COMPRIMENTO_TOTAL NUM_INDIVIDUOS
 
+# Demonstração de Uso
+
+
+
 ## Versões Anteriores / Desenvolvimento
 
 Exemplo sem obstáculos, o braço acha uma configuração quase instantaneamente.
