@@ -3,15 +3,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-
 
 //defines tornados em variáveis globais para possibilitar leitura a partir de arquivos futuramente
-//gcc desenha.c -o desenha $(sdl2-config --cflags --libs) -lSDL2 -lm -lrt
+//gcc desenha.c -o desenha $(sdl2-config --cflags --libs) -lSDL2 -lm
 int SCREEN_LENGTH;
 int NUM_SQUARES;
 int SQUARE_SIZE;
@@ -96,26 +90,6 @@ void lerOrigemDestino(int grid[NUM_SQUARES][NUM_SQUARES], Tela* tela) {
     SDL_Event event;
     int destino_escolhido = 0, origem_escolhida = 0;
     int mouse_x, mouse_y;
-    SDL_Keycode keyPressed;
-
-    int shm_fd;
-    long *shm;
-    const char *name = "/posix_shm";
-
-    // Open the shared memory object
-    shm_fd = shm_open(name, O_RDWR, 0666);
-    if (shm_fd == -1) {
-        perror("shm_open");
-        exit(1);
-    }
-
-    // Map the shared memory object into the process's address space
-    shm = (long *)mmap(NULL, 8, PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
-    if (shm == MAP_FAILED) {
-        perror("mmap");
-        exit(1);
-    }
-
     while(!destino_escolhido || !origem_escolhida)
     while (SDL_PollEvent(&event))
 	{
@@ -126,7 +100,7 @@ void lerOrigemDestino(int grid[NUM_SQUARES][NUM_SQUARES], Tela* tela) {
 				break;
             
             case SDL_KEYDOWN:
-                keyPressed = event.key.keysym.sym;
+                SDL_Keycode keyPressed = event.key.keysym.sym;
                 if(keyPressed == SDLK_d && !destino_escolhido) {//define o destino na grid e na variavel destino
                     SDL_GetMouseState(&mouse_x, &mouse_y);
                     destino_escolhido = 1;
@@ -154,12 +128,7 @@ void lerOrigemDestino(int grid[NUM_SQUARES][NUM_SQUARES], Tela* tela) {
             case SDL_MOUSEMOTION:
                 if(!mouseClicado) break;
                 SDL_GetMouseState(&mouse_x, &mouse_y);
-                for (int i = (-1 * (*shm)) + 1; abs(i) < *shm; i++){
-                    for (int j = (-1 * (*shm)) + 1; abs(j) < *shm; j++){
-                        if ((XYparaIJ(mouse_y)+i) >= 0 && (XYparaIJ(mouse_y)+i) < NUM_SQUARES && (XYparaIJ(mouse_x)+j) >= 0 && (XYparaIJ(mouse_x)+j) < NUM_SQUARES)                        
-                            grid[XYparaIJ(mouse_y)+i][XYparaIJ(mouse_x)+j] = 1;
-                    }
-                }
+                grid[XYparaIJ(mouse_y)][XYparaIJ(mouse_x)] = 1;
                 arrumaTela(tela);
                 arrumaGrid(grid, tela);
                 mostraTela(tela);
@@ -189,15 +158,13 @@ int main(int argc, char* argv[]) {
         }
     }
     lerOrigemDestino(grid, &tela);
-    FILE* cenario;
     while(1) {
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
                 {
                     case SDL_QUIT:
-                    
-                    cenario = fopen(argv[1], "wb");
+                    FILE* cenario = fopen(argv[1], "wb");
                     if(cenario == NULL) {
                         printf("Erro no salvamento de arquivo.\n");
                         exit(1);
