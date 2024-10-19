@@ -35,11 +35,11 @@ gcc braco_mecanico.c -o braco $(sdl2-config --cflags --libs) -lSDL2 -lm
 
 # Como usar o programa
 
-São 3 códigos, o desenha.c, braco_mecanicoav4.c e o a_starav2.c. Todos essses possuem comentarios com a linha de comando para ccompilação.
+São 3 códigos, o desenha.c, braco_mecanicoav.c e o a_starav.c. Todos essses possuem comentarios com a linha de comando para compilação.
 
 Para desenhar e salvar um cenário, compile o desenha.c e chame o executável no terminal com o nome do arquivo a ser salvo.
-Exemplo: ./desenha cenarioInteressante, o programa será executado e podera desenhar com cliques do mouse um cenário, D marca o ponto de destino e O o ponto de origem, quando terminar basta fechar o programa.
-Dessa maneira, um arquivo binário será gerado com esse nome e conterá uma matrix de inteiro representando o cenário que gerou.
+Exemplo: ./desenha cenarioInteressante, o programa será executado e podera desenhar com cliques do mouse um cenário, aperte D para marcar o ponto de destino e O para o ponto de origem, quando terminar basta fechar o programa.
+Dessa maneira, um arquivo binário será gerado com esse nome e conterá uma matriz de inteiros representando o cenário que gerou. O arquivo somente será salvo se houver um destino e uma origem desenhados.
 
 Agora, basta compilar o programa de a* e executá-lo com o mesmo nome do cenario desejado.
 Exemplo: ./a_star cenarioInteressante
@@ -47,6 +47,7 @@ Dessa maneira, o a_star irá ler o cenário salvo e gerar um caminho mínimo que
 
 Finalmente, o braço. Após ser compilado, basta que se execute ele por ./braco cenarioInteressante caminho_cenarioInteressante NUM_JUNTAS COMPRIMENTO_TOTAL NUM_INDIVIDUOS
 
+##Versões Anteriores / Desenvolvimento
 
 Exemplo sem obstáculos, o braço acha uma configuração quase instantaneamente.
 
