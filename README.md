@@ -49,7 +49,7 @@ Finalmente, o braço. Após ser compilado, basta que se execute ele por ./braco 
 
 # Forma de Uso Alternativa - Interface
 
-Simultâneamente, uma interface gráfica tem sido desenvolvida pelo grupo de iniciação científica, melhor detalhada no repositório: https://github.com/nicocarreiro/Multi-use-Interface que facilita o proccesso de criar cenários, configurar experimentos e modificar estratégias.
+Simultâneamente, uma interface gráfica tem sido desenvolvida pelo grupo de iniciação científica, melhor detalhada no repositório: https://github.com/nicocarreiro/Multi-use-Interface que facilita o proccesso de criar cenários, configurar experimentos e modificar estratégias. Para utiliza-la basta ter os códigos compilados com o main.py em uma pastar e executar python3 main.py
 
 # Demonstração de Uso
 
