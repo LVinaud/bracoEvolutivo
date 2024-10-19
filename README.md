@@ -54,6 +54,7 @@ baixe também a pasta saves que a interface utiliza para salvar cenarios e confi
 
 # Demonstração de Uso
 
+[Screencast from 19-10-2024 11:28:17.webm](https://github.com/user-attachments/assets/254b567d-6515-426e-9c20-9d60a85b3593)
 
 
 ## Versões Anteriores / Desenvolvimento
