@@ -5,7 +5,11 @@ O projeto segue conceitos ensinados na disciplina de Sistemas Evolutivos aplicad
 
 A ideia consiste num braço cujo comprimento é determinado em um define pelo usuário, com o número de juntas também definido pelo usuário no início do código,
 que deve chegar próximo a um ponto objetivo, definido pelo usuário. A aplicação é multiobjetiva, já que após o indivíduo chegar numa certa distância do objetivo,
-também se considera a sua menor distância a algum obstáculo como parte da pontuação(A descrição da avaliação no código é mais precisa).
+também se considera a sua menor distância a algum obstáculo como parte da pontuação(A descrição da avaliação no código é mais precisa). 
+
+# Como funciona o algoritmo?
+
+A partir de um cenario desenhado pelo usuário com obstáculos, uma popAulação de indivíduos aleatórios será gerada, cada um indíviduo é basicamente um vetor de angulos, que serão os angulos das juntas. O ponto final de cada indíviduo, ou seja aonde o braço dele termina seguindo as suas angulações é então calculado e a nota é inversamente proporcional à distância ao objetivo. Além disso, a nota leva em conta a distância aos obstáculos, individuos muito próximos aos obstáculos serão penalizados. Quando toda a população tiver sido avaliada e um melhor individuo selecionado, uma nova geração é feita com base nesse melhor, seus ângulos sao acrescidos ou descrescidos de um valor de máximo MAX_STEP, a quantidade de angulos alterados será decidida pela taxa de mutação, que é variável. Se há muitas gerações sem evolução, a mutação é aumentada.
 
 # Instalando SDL2
 
